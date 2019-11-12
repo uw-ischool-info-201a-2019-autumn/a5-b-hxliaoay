@@ -7,34 +7,45 @@ output: html_document
 ---
 ```{r echo = FALSE}
 library(knitr)
-read_chunk('analysis.R')
+source("analysis.R")
 ```
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 
-```
 
 ## Summary
-There are `r num_shooting` mass shootings in US 
+Gun violence has always been an issue in the U.S. as there are `r num_shooting` cases of mass shootings with `r num_death` deaths in the year 2018 (from `r begin_date` to `r ending_date`) according to [Gun Violence Archive](http://www.shootingtracker.com/), a crowd funded source. This data set only includes reported mass shootings, which is tailored from the FBI's definition of mass murder:  
+*"Mass murder was described as a number of murders (four or more) occurring during the same incident, with no distinctive time period between the murders."*  [(FBI)](https://www.fbi.gov/stats-services/publications/serial-murder#two)
+with the inclusion of injuries, not counting the shooter, and the usage of a gun as the form of harm.  This makes the definition of mass shooting as the following statement:  
+*"FOUR or more shot and/or killed in a single event [incident], at the same general time and location, not including the shooter."*  [(Gun Violence Archive)](http://www.shootingtracker.com/).  
 
+During this year the most impacted city is `r highest_impact_city`, if we were to define impact as the number of casualties, combining numbers of deaths and injuries.  Yet this method skews towards well planned and executed mass shootings that kills and injures more.  If we were to say how unsafe a city is, looking at the frequency of mass shooting is necessary -- in this case we have `r most_cases_city` for 2018.  If one were to argue that government policy making influences the numbers of mass shootings, we can look at the number of mass shootings by state -- in this case it happens to be `r most_cases_state` for 2018.
 
+## Summary Table
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r echo = FALSE}
+library(knitr)
+kable(shooting_table)
 ```
+    
+The table above shows the shooting data by city, sorted by number of cases occured.  We can see that the number of shootings in Chicago is absurdly high.  Looking at the rest of the city trailing, the vast majority of them are major cities with some history.  Perhaps it's due to parts of the city that's underfunded and creating communities that are getting increasingly unstable, further causing mass shootings.  This also could also potentially reject the statement hypothesized earlier on how state legistation influences the mass shooting numbers when we see a major trend of cities with high numbers of mass shootings.
+  
+## Specific Incident
+In the news report *Death Toll Is at 17 and Could Rise in Florida School Shooting* by Audra D. S. Burch and Patricia Mazzei from The [New York Times](https://www.nytimes.com/2018/02/14/us/parkland-school-shooting.html) it talks about the following mass shooting.  On `r parkland_date`, previously expelled 19 year-old Nikolas Cruz brought terror to Marjory Stoneman Douglas High School with an AR-15 rifle.  Sitting at `r parkland_address` in the suburbs of `r parkland_city`, `r parkland_state`, the most deadly mass shooting of the year occured, with `r parkland_deaths` dead and `r parkland_injured` injured.  According to officials, the shooter planned the shooting well as he used smoke grenades to set off fire alarms in order to have the students leave the classrooms.  The shooter was arrested in a nearby city few miles away about an hour after escaping the scene by mixing into the crowd.  
 
-## Including Plots
+## Interactive Map
 
-You can also embed plots, for example:
+`r shooting_map`
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+From the map above, we can see that mass shootings mostly occur in places with high population density (e.g. 2/3 of shootings occured in Washington state were in the Sea-Tac area and the only mass shooting in Nevada is in Las Vegas).  We can also see that newer developed part of the country (Pacific Northwest-ish area) has significantly less shooting than other population capitols.
+
+## Plot of Relation Between Frequency of Shootings and Casualties
+
+```{r echo = FALSE}
+plot_free
 ```
+    
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The plot above shows the relationship between deaths and injuries of the casualties among those in mass shootings, with the color scaling with lethality (ratio of deaths in casualties).  One thing we can note is that in most cities the death count is lower than 10 and injuries less than 25.  With almost 15000 deaths in 2018 among gun violence ([Gun Violence Archive](https://www.gunviolencearchive.org/)), these numbers don't seem as high.  This does not discount the issue of gun violence in US but rather that the idea of frequent mass shooting crimes may have been exaggerated a bit.  We can also see that the scale of injuries does not exceed 30ish people in all cities but Chicago when accounting for all mass shootings and the only city with death count exceeding it is Parkland with 17 deaths in one shooting, further highlighting how catastrophic that incident was.
+
+## Critical Reflection  
+
+Cathy O'Neil discusses about self feedback loops of policing and the same idea could be said here.  Cities with more cases of mass shootings / casualties may have inherent social issues that can't be easily fixed.  With these numbers published, it could potentially stop people, businesses, or government to invest further resources that may be work forces or money and starving these places even more -- causing even more serious issues.  
